@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Lab_07_Args_Array": {
+      "commandName": "Project",
+      "commandLineArgs": "Arg from VS Debug properties"
+    }
+  }
+}
