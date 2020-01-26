@@ -10,8 +10,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition  Height="2*"/>
@@ -19,11 +18,30 @@
             <RowDefinition Height="3*"/>
             <RowDefinition Height="15*"/>
         </Grid.RowDefinitions>
+        
+        <!--Generator title-->
+        <Label x:Name="Header" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Content="Rabbit Generator" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center"></Label>
+        <!--1st Column-->
         <Button x:Name="btn100Rabbits" Grid.Row="1" Grid.Column="0" Background="Azure" Content="Generate 100 Rabbits" Click="btn100Rabbits_Click"></Button>
-        <Button x:Name="btnAge100Times" Grid.Row="1" Grid.Column="1" Background="Azure" Content="Age Rabbits 100 Times" Click="btnAge100Times_Click"></Button>
-        <Button x:Name="btnBreedRabbits" Grid.Row="1" Grid.Column="2" Background="Azure" Content="Increase year and Breed rabbits" Click="btnBreedRabbits_Click"></Button>
-        <Label x:Name="Header" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Content="Rabbit Generator" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center"></Label>
         <ListBox x:Name="ListBox100Rabbits" Grid.Column="0" Grid.Row="3" Background="AliceBlue"/>
+        
+        <!--2nd Column-->
+        <Button x:Name="btnAge100Times" Grid.Row="1" Grid.Column="1" Background="Azure" Content="Age Rabbits 100 Times" Click="btnAge100Times_Click"></Button>
         <ListBox x:Name="ListBoxAgeRabbits100Times" Grid.Column="1" Grid.Row="3" Background="AliceBlue"/>
+        
+        <!--3rd Column-->
+        <Button x:Name="btnBreedRabbits" Grid.Row="1" Grid.Column="2" Background="Azure" Content="Increase year and Breed rabbits" Click="btnBreedRabbits_Click"></Button>
+        <ListView x:Name="ListViewBredRabbits" Grid.Row="3" Grid.Column="3" Background="Azure" Margin="10">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Rabbit ID" Width="80" DisplayMemberBinding="{Binding RabbitID}"/>
+                    <GridViewColumn Header="Can Breed?" Width="80" DisplayMemberBinding="{Binding CanBreed}"/>
+                    <GridViewColumn Header="Gender" Width="80" DisplayMemberBinding="{Binding Gender}"/>
+                    <GridViewColumn Header="Age" Width="80" DisplayMemberBinding="{Binding Age}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        
+        
     </Grid>
 </Window>

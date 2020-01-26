@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Lab_19_Collections
 {
@@ -6,6 +7,8 @@ namespace Lab_19_Collections
     {
         static void Main(string[] args)
         {
+            List<int> list = new List<int>();
+            Console.WriteLine($"Empty list length is: { list.Count}");
             int[] arr = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
             int arraySum = 0;
