@@ -13,91 +13,42 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Rabbits
+namespace Lab_33_RabbitsAdvanced
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    /// 
     public partial class MainWindow : Window
     {
-        // Random variable
         private Random random = new Random();
-
+        static List<RabbitTable> RabbitList = new List<RabbitTable>();
         public MainWindow()
         {
             InitializeComponent();
         }
 
-        private void btn100Rabbits_Click(object sender, RoutedEventArgs e)
+        void Initialize()
         {
-            List<Rabbit> RabbitList = new List<Rabbit>();
-            
-            for (int i = 0; i < 100; i++)
+            using(var db = new RabbitDatabaseEntities())
             {
-                var rab = new Rabbit();
-                RabbitList.Add(rab);
+                rabbits = db.RabbitTables.ToList();
             }
-
-            foreach (var rabbit in RabbitList)
-            {
-                ListBox100Rabbits.Items.Add(rabbit);
-            }
-
-            // USE LIST VIEW
         }
 
-        private void btnAge100Times_Click(object sender, RoutedEventArgs e)
-        {
-            List<Rabbit> RabbitList = new List<Rabbit>();
-
-            // Generate 100 Rabbits
-            for (int i = 0; i < 100; i++)
-            {
-                var rab = new Rabbit();
-                rab.FirstName = "Rabbit" + i;
-                RabbitList.Add(rab);
-            }
-
-            // Age rabbits 100 times
-            foreach (var item in RabbitList)
-            {
-                item.Age++;
-            }
-
-            // Add to listbox
-            foreach (var item in RabbitList)
-            {
-                ListBoxAgeRabbits100Times.Items.Add(item);
-            }
-        }
-        // List for breeding rabbits
-        List<Rabbit> RabbitList = new List<Rabbit>();
-        private void btnBreedRabbits_Click(object sender, RoutedEventArgs e)
+        private void AddOriginalRabbits_Click(object sender, RoutedEventArgs e)
         {
             // Populate list with a male and female rabbit
             while (RabbitList.Count < 2)
             {
                 RabbitList.Add(new Rabbit(RabbitList, random, true));
             }
-            // POSSIBLY BREED 10 GENERATIONS OF RABBITS HERE
-            if (RabbitList.Count >= 2)
-            {
-                // Only append rabbits onto listview
-                //foreach (var item in RabbitList)
-                //{
-                //    ListViewBredRabbits.Items.Add(item);
-                //}
+            
+        }
 
-            }
+        private void RabbitView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
 
-            // Breed all Rabbits that are produced 10 times
-
-
-            // Add List to listview
-            //ListViewBredRabbits.ItemsSource = RabbitList;
-
-            // Update Listview every click
-            // Bonus: Breed depending on cuteness.
         }
     }
 
@@ -139,7 +90,7 @@ namespace Rabbits
         private Array genders = Enum.GetValues(typeof(Gender));
         private IEnumerable<Rabbit> males;
         private IEnumerable<Rabbit> females;
-            // private float cuteFactor;
+        // private float cuteFactor;
         private string[] maleFirstNames = { "Stephen", "James", "Asher", "Hassan", "Ahmed", "Jaime", "Tim", "Karim", "Jordan", "Phillip" };
         private string[] femaleFirstNames = { "Colette", "Luisa", "Sue", "Mary", "Jane", "Amy", "Alice", "Julie", "Cathy", "Emily" };
         private string[] lastNames = { "Smith", "Baker", "Carpenter", "Cook", "Dyer", "Thatcher", "Slater", "Miller", "Fisher", "Shepherd" };
@@ -199,7 +150,7 @@ namespace Rabbits
 
         //  Set gender for first two rabbits to male and female, randomise the rest of genders.
         private void SetGender(List<Rabbit> rabbitList, Random random)
-        { 
+        {
             // If population is less than 2 make one male and one female.
             if (rabbitList.Count < 2 && !rabbitList.Exists(rabbit => rabbit.Gender == Gender.Male))
             {
@@ -230,12 +181,12 @@ namespace Rabbits
             }
             // Pick a lastName from either parent
             // If rabbit is an original, randomise name
-            if(Original == true)
+            if (Original == true)
             {
                 LastName = lastNames[random.Next(0, lastNames.Length - 1)];
             }
             // If rabbit has mother and father, take last name from either parent randomly
-            if(Mother != null && Father != null)
+            if (Mother != null && Father != null)
             {
                 LastName = random.NextDouble() < 0.5 ? Mother.LastName : Father.LastName;
             }
@@ -251,20 +202,20 @@ namespace Rabbits
                 {
                     CanBreed = true;
                 }
-            } 
+            }
         }
 
         // sort genders into two separate IEnumerable Lists
         public void SortGenders(List<Rabbit> rabbitList)
         {
             males = from rabbit in rabbitList
-                        where rabbit.Gender == Gender.Male
-                        select rabbit;
+                    where rabbit.Gender == Gender.Male
+                    select rabbit;
 
 
             females = from rabbit in rabbitList
-                            where rabbit.Gender == Gender.Female
-                            select rabbit;
+                      where rabbit.Gender == Gender.Female
+                      select rabbit;
         }
 
         public void BreedRabbits(List<Rabbit> rabbitList, Random random)
